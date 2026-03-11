@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Blueprint — Jornada Inbound / Step 1 | Growth CRM Omie</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --font: 'Inter', -apple-system, system-ui, sans-serif; --mono: 'JetBrains Mono', monospace; }
+
+[data-theme="light"] {
+  --bg:#fff; --bg2:#f9fafb; --bg3:#f3f4f6; --surface:#fff;
+  --border:#e5e5e5; --border2:#d4d4d4;
+  --text:#1a1a1a; --text2:#525252; --text3:#a3a3a3;
+  --accent:#2563eb; --accent-bg:#eff6ff;
+  --front-bg:#f0f9ff; --back-bg:#f0fdf4; --ind-bg:#faf5ff;
+  --gap-bg:#fef2f2; --gap-border:#fca5a5; --gap-text:#b91c1c;
+  --ok-bg:#f0fdf4; --ok-text:#15803d;
+  --warn-bg:#fffbeb; --warn-text:#a16207;
+  --t-blue-bg:#eff6ff; --t-blue:#2563eb; --t-green-bg:#f0fdf4; --t-green:#16a34a;
+  --t-purple-bg:#faf5ff; --t-purple:#7c3aed; --t-orange-bg:#fff7ed; --t-orange:#c2410c;
+  --t-gray-bg:#f5f5f5; --t-gray:#737373; --t-cyan-bg:#ecfeff; --t-cyan:#0e7490;
+  --bar-bg:#1a1a1a; --bar-text:#fff;
+  --s-cliente:#2563eb; --s-front:#0284c7; --s-back:#16a34a; --s-ind:#7c3aed;
+  --tooltip-bg:#1a1a1a; --tooltip-text:#f5f5f5; --tooltip-border:#333;
+  --dot-h:#16a34a; --dot-m:#ca8a04; --dot-l:#dc2626;
+  --toggle-bg:transparent; --toggle-border:#e5e5e5; --toggle-text:#a3a3a3;
+}
+
+[data-theme="dark"] {
+  --bg:#111; --bg2:#1a1a1a; --bg3:#222; --surface:#1a1a1a;
+  --border:#2a2a2a; --border2:#404040;
+  --text:#e5e5e5; --text2:#a3a3a3; --text3:#666;
+  --accent:#60a5fa; --accent-bg:#1e293b;
+  --front-bg:#0c1929; --back-bg:#071a0e; --ind-bg:#130c20;
+  --gap-bg:#2a1215; --gap-border:#7f1d1d; --gap-text:#fca5a5;
+  --ok-bg:#052e16; --ok-text:#86efac;
+  --warn-bg:#1c1a05; --warn-text:#fde047;
+  --t-blue-bg:#1e293b; --t-blue:#93c5fd; --t-green-bg:#052e16; --t-green:#86efac;
+  --t-purple-bg:#1e1035; --t-purple:#c4b5fd; --t-orange-bg:#271505; --t-orange:#fdba74;
+  --t-gray-bg:#262626; --t-gray:#a3a3a3; --t-cyan-bg:#083344; --t-cyan:#67e8f9;
+  --bar-bg:#e5e5e5; --bar-text:#111;
+  --s-cliente:#60a5fa; --s-front:#38bdf8; --s-back:#86efac; --s-ind:#c4b5fd;
+  --tooltip-bg:#262626; --tooltip-text:#e5e5e5; --tooltip-border:#404040;
+  --dot-h:#86efac; --dot-m:#fde047; --dot-l:#fca5a5;
+  --toggle-bg:transparent; --toggle-border:#404040; --toggle-text:#666;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:auto;min-height:100vh;transition:background .15s,color .15s;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.bp{min-width:1800px;padding:28px 36px}
+
+/* Toggle */
+.toggle{position:fixed;top:12px;right:12px;z-index:100;font-size:11px;font-family:var(--mono);padding:5px 10px;border-radius:6px;border:1px solid var(--toggle-border);background:var(--toggle-bg);color:var(--toggle-text);cursor:pointer;transition:all .15s;letter-spacing:.3px}
+.toggle:hover{border-color:var(--border2);color:var(--text2)}
+
+/* Header */
+.hd{display:flex;align-items:flex-start;gap:20px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.hd-icon{width:40px;height:40px;border-radius:8px;background:var(--accent-bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hd h1{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.hd h1 em{color:var(--accent);font-style:normal;font-weight:600}
+.hd .sub{font-size:12px;color:var(--text2);margin-top:2px;max-width:580px}
+.meta{margin-left:auto;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.mt{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);white-space:nowrap}
+.mt b{color:var(--text2);font-weight:600}
+
+/* Etapas */
+.etapas{display:grid;grid-template-columns:148px repeat(7,1fr)}
+.e-corner{padding:8px 12px;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center}
+.e{padding:8px 12px;text-align:center;background:var(--bar-bg);color:var(--bar-text);font-size:11px;font-weight:600;border-right:1px solid rgba(128,128,128,.15)}
+.e:last-child{border-right:none}
+
+/* Section bar */
+.sb{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;background:var(--bg2)}
+.sb.cl{color:var(--s-cliente);border-left:2px solid var(--s-cliente)}
+.sb.fr{color:var(--s-front);border-left:2px solid var(--s-front)}
+.sb.bk{color:var(--s-back);border-left:2px solid var(--s-back)}
+.sb.in{color:var(--s-ind);border-left:2px solid var(--s-ind)}
+.sb .r{margin-left:auto;font-weight:400;letter-spacing:0;text-transform:none;opacity:.6}
+
+/* Divider */
+.dv{border:none;border-top:1px dashed var(--border);margin:4px 0;opacity:.5}
+
+/* Grid */
+.rw{display:grid;grid-template-columns:148px repeat(7,1fr)}
+.rl{padding:7px 10px;font-size:10px;font-weight:600;color:var(--text3);background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;gap:5px}
+.rl .i{font-size:12px;opacity:.45}
+
+.c{padding:7px 10px;border:1px solid var(--border);background:var(--surface);font-size:11px;color:var(--text2);transition:background .1s;position:relative;cursor:default}
+.c:hover{background:var(--bg3)}
+.c.f{background:var(--front-bg)}.c.b{background:var(--back-bg)}.c.iv{background:var(--ind-bg)}
+.c.gp{background:var(--gap-bg);border-color:var(--gap-border)}
+.ct{font-weight:600;color:var(--text);font-size:11px;display:block;margin-bottom:1px}
+
+/* Tags */
+.t{display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;font-family:var(--mono);margin:1px 1px 1px 0;white-space:nowrap}
+.t.bl{background:var(--t-blue-bg);color:var(--t-blue)}
+.t.gr{background:var(--t-green-bg);color:var(--t-green)}
+.t.pr{background:var(--t-purple-bg);color:var(--t-purple)}
+.t.or{background:var(--t-orange-bg);color:var(--t-orange)}
+.t.gy{background:var(--t-gray-bg);color:var(--t-gray)}
+.t.cy{background:var(--t-cyan-bg);color:var(--t-cyan)}
+.t.gp{background:var(--gap-bg);color:var(--gap-text);border:1px solid var(--gap-border)}
+.t.ok{background:var(--ok-bg);color:var(--ok-text)}
+.t.wn{background:var(--warn-bg);color:var(--warn-text)}
+
+/* Dots */
+.d{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+.d.h{background:var(--dot-h)}.d.m{background:var(--dot-m)}.d.l{background:var(--dot-l)}
+
+/* Tooltips */
+.tip{position:relative}
+.tip .tt{display:none;position:absolute;z-index:50;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);width:280px;padding:10px 12px;background:var(--tooltip-bg);color:var(--tooltip-text);border:1px solid var(--tooltip-border);border-radius:8px;font-size:11px;line-height:1.5;box-shadow:0 4px 12px rgba(0,0,0,.15);pointer-events:none}
+.tip .tt::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--tooltip-border)}
+.tip:hover .tt{display:block}
+.tt strong{color:var(--ok-text);font-weight:600}
+.tt em{color:var(--warn-text);font-style:normal;font-weight:500}
+.tt .src{margin-top:4px;padding-top:4px;border-top:1px solid var(--tooltip-border);font-family:var(--mono);font-size:9px;color:var(--text3)}
+
+/* Legend */
+.lg{margin-top:28px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;display:flex;gap:32px;flex-wrap:wrap}
+.lg h4{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.li{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.le{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text2)}
+</style>
+</head>
+<body>
+
+<button class="toggle" onclick="toggleTheme()">tema escuro</button>
+
+<div class="bp">
+
+<div class="hd">
+  <div class="hd-icon">📋</div>
+  <div>
+    <h1>Service Blueprint — <em>Jornada Inbound / Step 1</em></h1>
+    <div class="sub">Mapeamento da jornada do lead desde a descoberta até conversão. Ações visíveis, processos de bastidores, ferramentas e pontos de atenção.</div>
+  </div>
+  <div class="meta">
+    <div class="mt"><b>Perfil</b> Lead PME Inbound</div>
+    <div class="mt"><b>Versão</b> v1.0 — Mar/2026</div>
+    <div class="mt"><b>Autor</b> Luã Oliveira — Dados, IA & Martech</div>
+    <div class="mt"><b>Status</b> Rascunho para validação</div>
+  </div>
+</div>
+
+<div class="etapas">
+  <div class="e-corner">Etapas da jornada</div>
+  <div class="e">Descoberta</div>
+  <div class="e">Step 1 (Cadastro)</div>
+  <div class="e">Enriquecimento</div>
+  <div class="e">Qualificação</div>
+  <div class="e">Esteira Comercial</div>
+  <div class="e">Negociação</div>
+  <div class="e">Conversão</div>
+</div>
+
+<!-- JORNADA DO LEAD -->
+<div class="sb cl">👤 Jornada do Lead <span class="r">Experiência do lead ao longo do processo</span></div>
+
+<div class="rw">
+  <div class="rl"><span class="i">⏱</span> Tempo</div>
+  <div class="c"><span class="ct">Dia 0</span></div>
+  <div class="c"><span class="ct">Dia 0</span>Imediato após form</div>
+  <div class="c"><span class="ct">+10s a +3min</span>Pesquisa Atômica</div>
+  <div class="c"><span class="ct">Dia 0-1</span>Score + Routing</div>
+  <div class="c"><span class="ct">Dia 1-5</span>Sandrinha / SDR</div>
+  <div class="c"><span class="ct">Dia 5-15</span>Réguas ativas</div>
+  <div class="c"><span class="ct">Dia 15-30</span>Ativação do app</div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">📍</span> Momento</div>
+  <div class="c tip">Busca solução de gestão para PME<div class="tt">Canais de entrada: Google Ads, FB Ads, orgânico/SEO, blog, eventos (Sympla sync 2AM). Social Media 100% direcionado para Corp por problemas de atribuição.<div class="src">Fonte: Semanal CRM 09/mar</div></div></div>
+  <div class="c tip">Preenche form comercial ou Merlin (WPP). Não preenche Step 2 em 10min.<div class="tt">Existem 2 fontes de Step 1: <strong>Form Comercial</strong> (site omie.com.br) e <strong>WhatsApp Merlin</strong>. Ambos ativam workflows idênticos mas com gatilhos separados para facilitar tracking.<div class="src">Fonte: Fluxo Step 1 Alan/Luã 10/mar</div></div></div>
+  <div class="c tip">Lead não percebe — sistema busca CNPJ automaticamente<div class="tt">Workflow aguarda 10s → verifica se CNPJ é desconhecido → envia para <strong>Pesquisa Atômica via N8N</strong> → aguarda 3min para retorno assíncrono → atualiza contato no HubSpot com CNPJ encontrado ou falha.<div class="src">Fonte: Fluxo Step 1 Alan/Luã 10/mar</div></div></div>
+  <div class="c tip gp">Com CNPJ → CROmie. Sem CNPJ → régua email (em construção)<div class="tt"><em>⚠ 3 opções em debate:</em> (1) Régua só para não-enriquecidos, (2) Régua para todos, (3) Régua primeiro, atrasar enriquecimento 10-15 dias. Opção 3 tem problema: sem CNPJ a Sandrinha não recebe o lead. Volume caiu pela metade ao filtrar enriquecidos. Yuka criando conteúdo, Luã criou triggers desativados.<div class="src">Fonte: Fluxo Step 1 10/mar + Alinhamento 09/mar</div></div></div>
+  <div class="c tip">Sandrinha liga, apresenta Omie, avança esteira<div class="tt">Lead enriquecido vai com origem <strong>"Step 1 Contato Comercial"</strong> ou <strong>"Step 1 Merlin"</strong>. CROmie cria oportunidade automaticamente. Todo lead enriquecido tem CNPJ populado.<div class="src">Fonte: Alinhamento Step 1 09/mar</div></div></div>
+  <div class="c tip">Réguas de nutrição e negociação ativas<div class="tt">Maior contribuição NMRR vem de <strong>Negociação</strong> (R$33k mar) e <strong>Apresentação</strong> (R$32k). Enterprise: R$10k. Régua RFV por cluster de faturamento × interações ativada em mar/26. Há sobreposição de réguas identificada — mesmo lead recebendo múltiplos canais sem governança clara.<div class="src">Fonte: Semanal CRM 09/mar</div></div></div>
+  <div class="c tip">Assina contrato, ativa app, emite 1ª NF<div class="tt">Não existe propriedade no HubSpot que retorna NMRR de apps ativados por deal. Proposta: integração diária (como a do Sympla) puxando ativações do Ruby → HubSpot. Permitiria dashboards de conversão direto no Hub. Alinhamento com Alan nas próximas semanas.<div class="src">Fonte: Análise NMRR 03/mar</div></div></div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">📈</span> Experiência</div>
+  <div class="c"><span class="d m"></span>Neutra</div>
+  <div class="c"><span class="d h"></span>Alta — expectativa</div>
+  <div class="c"><span class="d m"></span>Invisível</div>
+  <div class="c"><span class="d m"></span>Variável</div>
+  <div class="c"><span class="d h"></span>Alta — contato humano</div>
+  <div class="c"><span class="d m"></span>Tensão — decisão</div>
+  <div class="c"><span class="d h"></span>Pico — ativação</div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">🖱</span> Ações do lead</div>
+  <div class="c">Pesquisa Google, clica anúncio, acessa site, lê blog</div>
+  <div class="c">Preenche nome, email, telefone (Step 1). Não preenche Step 2 em 10min.</div>
+  <div class="c">Nenhuma — processo invisível</div>
+  <div class="c">Se receber email: clica LP, preenche CNPJ e faturamento</div>
+  <div class="c">Atende ligação, responde WhatsApp, agenda demo</div>
+  <div class="c">Abre emails, clica CTAs, avalia proposta, compara concorrentes</div>
+  <div class="c">Assina contrato, faz 1º acesso, emite 1ª NF</div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">📱</span> Pontos de contato</div>
+  <div class="c"><span class="t or">Site</span><span class="t or">Blog</span><span class="t gy">Ads</span></div>
+  <div class="c"><span class="t or">Form Comercial</span><span class="t gr">Merlin WPP</span></div>
+  <div class="c"><span class="t gy">Automático</span></div>
+  <div class="c"><span class="t bl">Email</span><span class="t or">LP CRM</span></div>
+  <div class="c"><span class="t gr">WhatsApp</span><span class="t gy">Telefone</span></div>
+  <div class="c"><span class="t bl">Email</span><span class="t gr">WPP</span><span class="t pr">Intercom</span></div>
+  <div class="c"><span class="t or">Plataforma</span><span class="t bl">Email</span></div>
+</div>
+
+<hr class="dv">
+
+<!-- FRONTSTAGE -->
+<div class="sb fr">👁 Frontstage — Ações Visíveis <span class="r">O que o lead enxerga / recebe</span></div>
+
+<div class="rw">
+  <div class="rl"><span class="i">📧</span> Comunicações</div>
+  <div class="c f tip">LPs de produto, blog (SEO), anúncios, conteúdo social<div class="tt">Conteúdos orgânicos com destaque para e-book "Gestão Inteligente: como a IA está redesenhando as empresas" (22,7% abertura, 152 cliques). Próximo: Calendário Fiscal 2026 com Reforma Tributária.<div class="src">Fonte: CRM Mensal Jan/26</div></div></div>
+  <div class="c f">Página de agradecimento, redirect para Step 2</div>
+  <div class="c f">—</div>
+  <div class="c f tip">Email com LP específica CRM (CNPJ + faturamento). Email encodado na URL (base64)<div class="tt">LP em construção pelo Renato (entrega dia 16). Luã implementa encode do email na URL usando Node Python no N8N. Nilson faz decode na LP. Decisão: usar base64 para não expor email visível na URL.<div class="src">Fonte: Alinhamento Step 1 09/mar</div></div></div>
+  <div class="c f">Ligação Sandrinha, WPP personalizado, email apresentação</div>
+  <div class="c f tip">Réguas nutrição inbound, Enterprise, WPP Weni, conteúdos blog<div class="tt">10 fluxos de CRM orgânico ativos. ~13k leads receberam email em fev. Campanha NFS/Reforma Tributária com emails prontos e aprovados por Produto (Sandra e Pamela). Todos emails incluem artigos de blog para direcionar tráfego.<div class="src">Fonte: CRM Fechamento Fev 04/mar</div></div></div>
+  <div class="c f">Email boas-vindas, onboarding in-app (Intercom)</div>
+</div>
+
+<hr class="dv">
+
+<!-- BACKSTAGE -->
+<div class="sb bk">⚙ Backstage — Ações de Bastidores <span class="r">O que acontece por trás</span></div>
+
+<div class="rw">
+  <div class="rl"><span class="i">🔄</span> Processos</div>
+  <div class="c b tip">Tráfego pago (MMM), SEO, Eventos (Sympla→HubSpot 2AM), Social→Corp<div class="tt">Sympla sync: Google Apps Script roda 2AM, pega inscritos do dia anterior e cria contatos no HubSpot. Filtro por nome do evento (contém "otimiza" ou "conecta day"). Também traz data/hora do evento para régua pós-evento.<div class="src">Fonte: Quinzenal Eventos 23/fev</div></div></div>
+  <div class="c b tip">HubSpot captura → Workflow Step 1 → aguarda 10s → verifica CNPJ<div class="tt">4 fluxos Step 1: 2 de enriquecimento (Merlin e Form), 2 de manutenção, 1 de Lead Gen. Mecânica: form concluído → delay 10s → check CNPJ desconhecido → se sim, envia para enriquecimento.<div class="src">Fonte: Fluxo Step 1 Alan/Luã 10/mar</div></div></div>
+  <div class="c b">N8N → Pesquisa Atômica → 3min → retorna CNPJ ou falha → atualiza HubSpot</div>
+  <div class="c gp tip"><span class="ct" style="color:var(--gap-text)">⚠ EM CONSTRUÇÃO</span>Se CNPJ → Lead Gen (CROmie). Sem → régua email. 3 opções em debate.<div class="tt"><em>Decisão pendente.</em> Rafa precisa abrir thread com Pablo. Se atrasar enriquecimento, Sandrinha não recebe (precisa do CNPJ). Luã criou triggers desativados nos 2 fluxos (Merlin + Form). Fluxo modular para não sujar o existente.<div class="src">Fonte: Fluxo Step 1 10/mar</div></div></div>
+  <div class="c b">CROmie recebe lead (origem Step 1 Comercial ou Merlin) → Sandrinha distribui</div>
+  <div class="c b tip">HubSpot workflows: nutrição, negociação, apresentação, perdidos (RFV). Weni: WPP modulares<div class="tt">Weni reorganizada em jan/26: subfluxos por área/período, roteamento modular, tags/rótulos para governança. Evita fluxo gigante. Arquivar fluxos obsoletos. Campanhas NFS/Reforma Tributária planejadas com base PRG.<div class="src">Fonte: Weni Fluxos 20/jan + Semanal CRM 09/mar</div></div></div>
+  <div class="c b tip">CROmie → ativação → falta retroalimentação NMRR<div class="tt"><em>GAP:</em> 771 deals no HubSpot vinculados a apps ativados via CNPJ. Dos 3.060 contatos do fluxo touchless sem "régua mais recente", apenas 4 ativaram em jan-fev. Proposta: integração diária Ruby→HubSpot (como Sympla).<div class="src">Fonte: Análise NMRR 03/mar</div></div></div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">🛠</span> Ferramentas</div>
+  <div class="c b"><span class="t cy">Google Ads</span><span class="t cy">FB Ads</span><span class="t cy">Sympla</span><span class="t cy">GA4</span></div>
+  <div class="c b"><span class="t cy">HubSpot</span><span class="t cy">Merlin</span></div>
+  <div class="c b"><span class="t cy">N8N</span><span class="t cy">Pesq. Atômica</span><span class="t cy">HubSpot</span></div>
+  <div class="c b"><span class="t cy">HubSpot</span><span class="t cy">CROmie</span></div>
+  <div class="c b"><span class="t cy">CROmie</span><span class="t cy">Sandrinha</span></div>
+  <div class="c b"><span class="t cy">HubSpot</span><span class="t cy">Weni</span><span class="t cy">Intercom</span></div>
+  <div class="c b"><span class="t cy">CROmie</span><span class="t cy">Plataforma Omie</span></div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">👥</span> Responsáveis</div>
+  <div class="c b">Pablo (MMM), Yuka (orgânico), Letícia (eventos)</div>
+  <div class="c b">Alan (fluxos), Luã (triggers)</div>
+  <div class="c b">Alan (N8N), Pablo (config)</div>
+  <div class="c b">Yuka (conteúdo), Luã (fluxos), Rafa (decisão)</div>
+  <div class="c b">Sandrinha (atend.), Rafa (gestão)</div>
+  <div class="c b">Rafa (réguas), Yuka (conteúdo), Luã (automação)</div>
+  <div class="c b">Suellen (retenção), Luã (dados/integração)</div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">📄</span> Docs</div>
+  <div class="c b">—</div>
+  <div class="c b">Fluxo Step 1 (HubSpot) — 4 workflows documentados</div>
+  <div class="c b">Fluxo N8N enriquecimento (Alan)</div>
+  <div class="c gp"><span class="t gp">FALTA DOC</span> Nova régua Step 1 sem documentação</div>
+  <div class="c b">Processos Sandrinha no CROmie</div>
+  <div class="c b tip">Weni: subfluxos modulares (jan/26). HubSpot: réguas por área<div class="tt">Documentação Weni inclui: notas de governança por fluxo, rótulos/tags por área e período, arquivamento de fluxos obsoletos. HubSpot: lista automática exclusão bounce criada e incluída em todos workflows.<div class="src">Fonte: Weni 20/jan + Semanal CRM</div></div></div>
+  <div class="c gp"><span class="t gp">FALTA DOC</span> Integração NMRR → HubSpot (proposta)</div>
+</div>
+
+<hr class="dv">
+
+<!-- INDICADORES -->
+<div class="sb in">📊 Indicadores <span class="r">Marcos de sucesso e pontos de atenção</span></div>
+
+<div class="rw">
+  <div class="rl"><span class="i">⚠️</span> Pontos de atenção</div>
+  <div class="c iv tip">Social media 100% pra Corp (atribuição)<div class="tt">Matheus comunicou que social media agora vai 100% para Corp. Problemas de atribuição fizeram deslocar todo o volume. Isso impactou diretamente o volume de leads não pagos.<div class="src">Fonte: Alinhamento Step 1 09/mar</div></div></div>
+  <div class="c iv tip">Volume leads não-enriquecidos desconhecido<div class="tt">Ao aplicar filtro de propriedade para remover enriquecidos, o volume caiu pela metade. Não existe dashboard para acompanhar % de enriquecimento. Luã vai analisar volume de pessoas não enriquecidas.<div class="src">Fonte: Alinhamento Step 1 09/mar + Fluxo Step 1 10/mar</div></div></div>
+  <div class="c iv"><span class="t wn">DECISÃO PENDENTE</span> 3 opções: só não-enriquecidos / todos / inverter fluxo</div>
+  <div class="c iv"><span class="t gp">GAP</span> Leads sem CNPJ no limbo. Risco de perda.</div>
+  <div class="c iv tip">Conflito de origens se lead criado depois no CROmie<div class="tt">Se criar nova origem (ex: "Touchless CRM" ou "Trial CRM") precisa coordenar com time CROmie. Leads abaixo de 81k vão para Trial, acima para Inbound Trial → Ravenna. Pablo e Matheus já fizeram processo similar.<div class="src">Fonte: CRM Fechamento Fev 04/mar</div></div></div>
+  <div class="c iv tip">Sobreposição de réguas — leads em múltiplos canais<div class="tt">Time tem consciência de múltiplas réguas/disparos na mesma etapa. Email + WhatsApp + Intercom sem coordenação clara. Ex: Webinar Ravena teve retorno negativo por disparos WPP excessivos. Blueprint resolve: mapeia onde há conflito.<div class="src">Fonte: Análise NMRR 03/mar + CRM Mensal Jan</div></div></div>
+  <div class="c iv"><span class="t gp">GAP</span> Sem retroalimentação NMRR no HubSpot</div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">🏆</span> Marcos de sucesso</div>
+  <div class="c iv">Lead acessou site + engajou</div>
+  <div class="c iv"><span class="t ok">MILESTONE</span> Step 1 preenchido</div>
+  <div class="c iv"><span class="t ok">MILESTONE</span> CNPJ encontrado</div>
+  <div class="c iv">CNPJ + faturamento preenchidos na LP</div>
+  <div class="c iv"><span class="t ok">MILESTONE</span> Oportunidade no CROmie</div>
+  <div class="c iv">Apresentação → Negociação</div>
+  <div class="c iv"><span class="t ok">MILESTONE</span> App ativado + 1ª NF = NMRR</div>
+</div>
+
+<div class="rw">
+  <div class="rl"><span class="i">📏</span> KPIs</div>
+  <div class="c iv">Leads não pagos: meta 166/mês</div>
+  <div class="c iv">Volume Step 1 sem Step 2</div>
+  <div class="c iv">Taxa enriquecimento (%)</div>
+  <div class="c iv">Tx preenchimento LP CRM</div>
+  <div class="c iv tip">NMRR Inbound: meta R$481k<div class="tt">Jan/26: R$366k (+14% MoM, -2% meta). Fev/26: R$101k 1ª semana (queda vs jan). Share CRM vs Omie: 47,3% jan (+1,2 ppt MoM). Maior contrib: Negociação + Apresentação. Régua RFV dificuldade contato ativada mar/26.<div class="src">Fonte: CRM Mensal Jan + Semanal CRM</div></div></div>
+  <div class="c iv">Tx abertura: meta 36%. CTR. NMRR/régua</div>
+  <div class="c iv">NMRR ativado. Share CRM vs Omie</div>
+</div>
+
+<!-- LEGEND -->
+<div class="lg">
+  <div><h4>Canais</h4><div class="li"><div class="le"><span class="t bl">Email</span>HubSpot</div><div class="le"><span class="t gr">WPP</span>Weni</div><div class="le"><span class="t pr">In-App</span>Intercom</div><div class="le"><span class="t or">LP/Web</span>Site</div></div></div>
+  <div><h4>Status</h4><div class="li"><div class="le"><span class="t ok">ATIVO</span></div><div class="le"><span class="t wn">PENDENTE</span></div><div class="le"><span class="t gp">GAP</span></div></div></div>
+  <div><h4>Ferramentas</h4><div class="li"><div class="le"><span class="t cy">HubSpot</span></div><div class="le"><span class="t cy">CROmie</span></div><div class="le"><span class="t cy">N8N</span></div><div class="le"><span class="t cy">Weni</span></div><div class="le"><span class="t cy">Databricks</span></div></div></div>
+  <div><h4>Interatividade</h4><div class="li"><div class="le" style="max-width:220px;font-size:10px">Passe o mouse sobre células com borda pontilhada para ver detalhes extraídos das reuniões</div></div></div>
+  <div><h4>Fontes</h4><div class="li"><div class="le" style="max-width:320px;font-size:10px">Daily Vivi+Luã, Semanal CRM, Alinhamento Step 1, Fluxo Step 1 Alan/Luã, Análise NMRR, CRM Fechamento Fev, CRM Mensal Jan/26, Weni Fluxos, Quinzenal Eventos</div></div></div>
+</div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  const h=document.documentElement,b=document.querySelector('.toggle');
+  if(h.dataset.theme==='light'){h.dataset.theme='dark';b.textContent='tema claro'}
+  else{h.dataset.theme='light';b.textContent='tema escuro'}
+}
+// Add subtle dashed border to cells with tooltips
+document.querySelectorAll('.tip').forEach(el=>{
+  if(!el.classList.contains('gp'))el.style.borderBottomStyle='dashed';
+});
+</script>
+</body>
+</html>
